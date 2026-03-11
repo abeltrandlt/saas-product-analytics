@@ -1,0 +1,12 @@
+# .gitignore content
+# Don't commit large data files or sensitive info
+*.csv
+*.xlsx
+data/raw/
+*.pyc
+__pycache__/
+.DS_Store
+*.twb
+*.hyper
+venv/
+.env
