@@ -34,11 +34,11 @@ See [docs/business_questions.md](docs/business_questions.md) for full list of an
 ## Dataset
 
 **Scope:**
-- 10,000 users
-- 100,000+ user events
-- 12,000 subscriptions
-- 50,000+ payments
-- Simulated using Python (realistic behavioral patterns)
+- 1,015 users (includes 15 intentional duplicates)
+- 173,364 user events (behavioral patterns: power/casual/at-risk/dormant)
+- 1,786 subscriptions (free → paid → upgrades lifecycle)
+- 19,332 payments (realistic failure/refund rates)
+- Generated using Python with intentional quality issues for SQL practice
 
 **Schema:** See [schema.sql](schema.sql) or [ERD diagram](docs/erd_diagram.png)
 
@@ -64,7 +64,7 @@ saas-product-analytics/
 ## Progress Tracker
 
 - [x] Day 1: Problem framing + schema design
-- [ ] Day 2: Data generation + import
+- [x] Day 2: Data generation + export ✅ COMPLETE
 - [ ] Day 3: Core SQL queries (engagement)
 - [ ] Day 4: Retention + cohort analysis
 - [ ] Day 5: Revenue metrics

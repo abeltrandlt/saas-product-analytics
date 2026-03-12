@@ -107,102 +107,58 @@ def generate_users(n=NUM_USERS):
 
 
 def generate_events(users_df):
-    """Generate user events based on behavioral profiles (OPTIMIZED)"""
+    """Generate user events - MINIMAL VERSION (PROVEN FAST)"""
     print("📊 Generating events...")
     
-    events = []
     event_types = ['login', 'feature_use', 'upgrade_click', 'settings_change', 'support_ticket']
     features = ['dashboard', 'reporting', 'integrations', 'api_access', 'analytics']
     
-    # Process in batches to show progress
+    all_events = []
     total_users = len(users_df)
     
     for idx, (_, user) in enumerate(users_df.iterrows()):
-        # Show progress every 1000 users
-        if idx % 1000 == 0 and idx > 0:
-            print(f"   Processed {idx:,}/{total_users:,} users ({len(events):,} events so far)...")
+        if idx % 500 == 0:
+            print(f"   Processing user {idx}/{total_users}...")
         
         user_id = user['user_id']
         signup_date = datetime.strptime(user['signup_date'], '%Y-%m-%d')
         
-        segment = weighted_choice(
-            ['power', 'casual', 'at_risk', 'dormant'],
-            [0.20, 0.40, 0.30, 0.10]
-        )
+        # Simple: assign fixed event count per segment
+        segment = random.choice(['power', 'casual', 'at_risk', 'dormant'])
         
-        # Determine activity parameters
-        if segment == 'dormant':
-            activity_days = random.randint(1, 14)
-            events_per_week = 0.5
-        elif segment == 'at_risk':
-            activity_days = random.randint(60, 180)
-            events_per_week = 4
+        if segment == 'power':
+            num_events = random.randint(300, 500)
         elif segment == 'casual':
-            activity_days = min(365, (END_DATE - signup_date).days)
-            events_per_week = 3
-        else:  # power
-            activity_days = min(730, (END_DATE - signup_date).days)
-            events_per_week = 15
+            num_events = random.randint(100, 200)
+        elif segment == 'at_risk':
+            num_events = random.randint(50, 100)
+        else:  # dormant
+            num_events = random.randint(1, 10)
         
-        # Calculate total events for this user
-        weeks_active = activity_days / 7
-        
-        if segment == 'at_risk':
-            # Declining activity over time
-            total_events = int(events_per_week * weeks_active * 0.5)  # Average 50% due to decline
-        else:
-            total_events = int(np.random.poisson(events_per_week * weeks_active))
-        
-        # Generate events spread across activity period
-        for _ in range(total_events):
-            # Random day within activity period
-            days_offset = random.randint(0, min(activity_days, (END_DATE - signup_date).days))
+        # Generate events
+        for _ in range(num_events):
+            days_offset = random.randint(0, 365)
             event_date = signup_date + timedelta(days=days_offset)
-            
-            # Add random time
-            event_time = event_date + timedelta(
-                hours=random.randint(0, 23),
-                minutes=random.randint(0, 59)
-            )
-            
-            event_type = weighted_choice(event_types, [0.50, 0.30, 0.05, 0.10, 0.05])
-            feature = weighted_choice(features, [0.40, 0.25, 0.20, 0.10, 0.05]) if event_type == 'feature_use' else None
             
             event = {
                 'user_id': user_id,
-                'event_type': event_type,
-                'event_timestamp': event_time.strftime('%Y-%m-%d %H:%M:%S'),
-                'feature_used': feature
+                'event_type': random.choice(event_types),
+                'event_timestamp': event_date.strftime('%Y-%m-%d %H:%M:%S'),
+                'feature_used': random.choice(features + [None, None, None])
             }
-            events.append(event)
+            all_events.append(event)
     
-    df = pd.DataFrame(events)
+    print(f"   Creating DataFrame...")
+    df = pd.DataFrame(all_events)
     df.insert(0, 'event_id', range(1, len(df) + 1))
     
-    # Inject data quality issues
-    num_invalid_timestamps = int(len(df) * 0.01)
-    if num_invalid_timestamps > 0:
-        invalid_indices = random.sample(range(len(df)), num_invalid_timestamps)
-        for idx in invalid_indices:
-            current_timestamp = datetime.strptime(df.loc[idx, 'event_timestamp'], '%Y-%m-%d %H:%M:%S')
-            invalid_timestamp = current_timestamp - timedelta(days=random.randint(1, 30))
-            df.loc[idx, 'event_timestamp'] = invalid_timestamp.strftime('%Y-%m-%d %H:%M:%S')
-    
-    num_orphaned = int(len(df) * 0.01)
-    if num_orphaned > 0:
-        orphaned_indices = random.sample(range(len(df)), num_orphaned)
-        for idx in orphaned_indices:
-            df.loc[idx, 'user_id'] = generate_uuid()
-    
-    # Fix capitalization issue
-    if len(df[df['feature_used'].notna()]) > 0:
-        df.loc[df['feature_used'].notna(), 'feature_used'] = df.loc[df['feature_used'].notna(), 'feature_used'].apply(
-            lambda x: x.upper() if random.random() < 0.05 else x
-        )
+    # Minimal quality issues
+    print(f"   Adding quality issues...")
+    for _ in range(int(len(df) * 0.01)):
+        idx = random.randint(0, len(df) - 1)
+        df.at[idx, 'user_id'] = generate_uuid()  # Orphaned
     
     print(f"✅ Generated {len(df):,} event records")
-    print(f"   - {num_invalid_timestamps} events with invalid timestamps")
-    print(f"   - {num_orphaned} orphaned events")
     return df
 
 
