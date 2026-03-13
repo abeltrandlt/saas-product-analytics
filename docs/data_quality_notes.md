@@ -1,10 +1,22 @@
 # Data Quality Issues — SaaS Analytics Dataset
 
 ## Overview
-This dataset intentionally includes realistic data quality issues to demonstrate SQL cleaning skills.
+This dataset was originally designed with intentional quality issues for SQL cleaning practice. For PostgreSQL loading, the following issues were removed to ensure referential integrity:
+
+**Removed for database loading:**
+- ❌ Duplicate user_ids (~1.5%)
+- ❌ Orphaned events (~1%)
+- ❌ Events with timestamps before signup_date (~1%)
+
+**Still present in dataset:**
+- ✅ NULL country values (~2%)
+- ✅ Inconsistent capitalization (countries, features ~5%)
+- ✅ Failed payments (~3%)
+- ✅ Refunded payments (~1%)
+
+These remaining issues demonstrate SQL data cleaning without violating database constraints.
 
 ---
-
 ## Known Issues & Resolutions
 
 ### 1. Duplicate User IDs (~1.5% of users)

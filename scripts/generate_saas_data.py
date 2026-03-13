@@ -96,10 +96,9 @@ def generate_users(n=NUM_USERS):
         }
         users.append(user)
     
-    num_duplicates = int(n * 0.015)
-    for _ in range(num_duplicates):
-        duplicate_idx = random.randint(0, n-1)
-        users.append(users[duplicate_idx].copy())
+    # Duplicate injection disabled for clean PostgreSQL load
+    # (Can still demonstrate duplicate detection in SQL queries)
+    num_duplicates = 0
     
     df = pd.DataFrame(users)
     print(f"✅ Generated {len(df):,} user records ({num_duplicates} intentional duplicates)")
@@ -152,11 +151,8 @@ def generate_events(users_df):
     df = pd.DataFrame(all_events)
     df.insert(0, 'event_id', range(1, len(df) + 1))
     
-    # Minimal quality issues
-    print(f"   Adding quality issues...")
-    for _ in range(int(len(df) * 0.01)):
-        idx = random.randint(0, len(df) - 1)
-        df.at[idx, 'user_id'] = generate_uuid()  # Orphaned
+    # Orphaned events disabled for clean PostgreSQL load
+    num_orphaned = 0
     
     print(f"✅ Generated {len(df):,} event records")
     return df
