@@ -38,11 +38,13 @@ FROM feature_stats f
 CROSS JOIN total_users t
 ORDER BY f.total_uses DESC;
 
--- Expected Output:
--- feature_used  | total_uses | unique_users | adoption_rate_pct | avg_uses_per_user | usage_rank
--- --------------|------------|--------------|-------------------|-------------------|------------
--- dashboard     | 32,456     | 782          | 78.2              | 41.51             | 1
--- reporting     | 20,312     | 654          | 65.4              | 31.06             | 2
--- integrations  | 16,248     | 521          | 52.1              | 31.19             | 3
--- api_access    | 8,124      | 289          | 28.9              | 28.11             | 4
--- analytics     | 4,062      | 178          | 17.8              | 22.82             | 5
+-- Adding a time series analysis to see how feature usage evolves over time
+SELECT 
+    DATE_TRUNC('month', event_timestamp) AS month,
+    feature_used,
+    COUNT(*) AS monthly_uses
+FROM events
+WHERE event_type = 'feature_use'
+  AND feature_used IS NOT NULL
+GROUP BY DATE_TRUNC('month', event_timestamp), feature_used
+ORDER BY month, monthly_uses DESC;
