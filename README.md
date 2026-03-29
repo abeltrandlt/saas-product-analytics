@@ -1,279 +1,318 @@
-# SaaS Product Analytics: User Engagement, Retention, and Revenue Growth
+# SaaS Product Analytics: Growth to Decline Case Study
 
 **Author:** Alberto Beltran  
-**Tools:** Python, PostgreSQL, Tableau  
-**Project Timeline:** 7 days
+**Tools:** Python, PostgreSQL, SQL, Tableau  
+**Project Duration:** 7 phases  
+**Status:** ✅ Complete
+
+[![View Dashboard](https://img.shields.io/badge/Tableau-Interactive_Dashboard-orange?logo=tableau)](https://public.tableau.com/app/profile/alberto.beltran.de.la.torre/viz/SaaSProductAnalyticsDashboard_17747287669060/SaaSProductAnalysis-FullStory)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/abeltrandlt/saas-product-analytics)
 
 ---
 
-## Project Overview
+## 📊 Interactive Dashboard
 
-This project analyzes user engagement, retention, and revenue patterns in a simulated SaaS platform to answer key business questions:
+**[→ View Live Tableau Dashboard](https://public.tableau.com/app/profile/alberto.beltran.de.la.torre/viz/SaaSProductAnalyticsDashboard_17747287669060/SaaSProductAnalysis-FullStory)**
 
-- What drives user retention?
-- Which features correlate with long-term engagement?
-- What are the leading indicators of churn?
-- How does revenue expand within customer cohorts?
+Explore 4 interactive dashboards covering:
+- Product health metrics (MAU, churn, stickiness)
+- Cohort retention heatmaps
+- Revenue growth analysis (28x MRR growth)
+- Activation funnels and channel performance
 
-**Status:** 🚧 In Progress — Day 1/7 Complete
-
----
-
-## Business Questions
-
-See [docs/business_questions.md](docs/business_questions.md) for full list of analytical questions.
-
-**Core focus areas:**
-1. User engagement (DAU, MAU, stickiness)
-2. Cohort retention analysis
-3. Churn prediction and prevention
-4. Revenue metrics (MRR, ARR, net retention)
+![Dashboard Preview](Tableau/dashboard-preview.png)
 
 ---
 
-## Dataset
+## 🎯 Project Overview
 
-**Scope:**
-- 1,015 users (includes 15 intentional duplicates)
-- 173,364 user events (behavioral patterns: power/casual/at-risk/dormant)
-- 1,786 subscriptions (free → paid → upgrades lifecycle)
-- 19,332 payments (realistic failure/refund rates)
-- Generated using Python with intentional quality issues for SQL practice
+This project analyzes the complete lifecycle of a SaaS product—from explosive growth to catastrophic decline—using PostgreSQL and Tableau. Through cohort analysis, retention curves, and revenue metrics, I uncovered the root cause of a 71% churn rate and identified actionable strategies to prevent future decline.
 
-**Schema:** See [schema.sql](schema.sql) or [ERD diagram](docs/erd_diagram.png)
+**Dataset:**
+- **1,000 users** across 5 acquisition channels
+- **173,000+ events** (login, feature_use, subscription changes)
+- **691 paid subscriptions** with realistic upgrade/downgrade patterns
+- **Time period:** January 2022 - October 2023 (22 months)
+
+**Key Finding:** Product achieved strong product-market fit (69% conversion, 85% M1-M9 retention, 28x revenue growth) but suffered mass exodus at the 12-month renewal point due to pricing/competitive pressure—not product quality issues.
 
 ---
 
-## Project Structure
+## 💡 Key Insights
+
+### Product Lifecycle Pattern
+
+**Growth Phase (Jan-Oct 2022):**
+- 📈 MAU grew 16x (50 → 796 users)
+- 💰 MRR increased 28x ($1,742 → $48,844)
+- ✅ Stickiness crossed healthy 20% threshold (peaked at 20.38%)
+- 🎯 69% trial-to-paid conversion (top 10% of SaaS benchmarks)
+
+**Plateau & Decline (Nov 2022 - Oct 2023):**
+- ⚠️ First MoM decline: Nov 2022 (-1.4%)
+- 📉 MAU collapsed 98% (796 → 14 users)
+- 🚨 71% overall churn rate (catastrophic)
+- 💔 All cohorts churned at exactly 12-month renewal
+
+### Root Cause Analysis
+
+**The 12-Month Renewal Pattern:**
+- ✅ Months 1-9: 75-85% retention (excellent!)
+- ❌ Month 12: Dropped to 58-69% (-15% renewal churn)
+- 🎯 **All cohorts churned simultaneously** (Jan cohort → Jan renewal, Feb → Feb renewal)
+- 💡 **Conclusion:** Annual subscription renewal crisis, not gradual product decline
+
+**Supporting Evidence:**
+- Behavioral signals (events, feature usage) did **NOT** predict churn
+- Paid subscribers churned at the same rate as free users (68% vs 73%)
+- Events in last 30 days = perfect predictor (0.00 churned vs 1.68 retained)
+
+---
+
+## 📈 Metrics Summary
+
+| Metric | Value | Benchmark | Status |
+|--------|-------|-----------|--------|
+| **Peak MAU** | 796 | - | - |
+| **Stickiness (Peak)** | 20.38% | >15% healthy | ✅ Excellent |
+| **Trial Conversion** | 69.10% | 40-60% good | ✅ Top 10% |
+| **Activation Rate** | 48.70% | 40-60% good | ✅ Solid |
+| **Churn Rate** | 71.16% | 10-30% avg | ❌ Critical |
+| **MRR Growth** | 28x in 15mo | - | ✅ Exceptional |
+| **M12 Retention** | 58-69% | 40-50% good | ⚠️ High churn |
+
+### Channel Performance
+
+| Channel | Volume | Activation | Conversion | Engagement | Assessment |
+|---------|--------|------------|------------|------------|------------|
+| **Affiliate** | 4% | 62% ⭐ | 69% | 97 events ⭐ | Best overall |
+| Referral | 9% | 55% | 71% | 73 events | Strong |
+| Organic | 58% | 48% | 69% | 70 events | Volume leader |
+| Paid Search | 21% | 46% | 69% | 62 events | Needs optimization |
+
+**Key Finding:** Affiliate delivers 56% higher engagement than paid search despite 14x lower volume—scale affiliate channel for higher LTV users.
+
+---
+
+## 🎯 Business Recommendations
+
+### Immediate Actions
+
+**1. Fix Renewal Churn (Priority #1)**
+- Implement proactive renewal campaigns at M10-M11
+- Offer multi-year discounts (lock customers in early)
+- "Year in review" value communication before renewal
+- **Target:** Reduce 15% renewal churn to 5-10% industry average
+
+**2. Increase Activation Rate (49% → 65%+)**
+- Trigger intervention if user has <6 events by day 7 (99% activation predictor)
+- Onboarding checklist requiring 3+ features before "completing"
+- Reduce 36% never-activated rate to <20%
+
+**3. Scale Affiliate Channel**
+- Best metrics across all categories (62% activation, 10.8 days to activate, 5 events week 1)
+- Shift budget from paid search → affiliate partnerships
+- Recruit specialized affiliates in niche markets
+
+### Product Strategy
+
+**Address "Active Free Rider" Problem:**
+- 76% of non-converters had 10+ events (avg 170 events!) but never paid
+- Free tier too generous—implement usage limits or feature gates
+- Option: 10 events/month cap on free tier after trial
+
+**Improve Onboarding:**
+- 36% never activate (only 2 events, <1 feature tried)
+- Force feature breadth: require trying 5 features during onboarding
+- Reduce time-to-first-feature from 38 days → 7 days
+
+---
+
+## 🗂️ Project Structure
 ```
 saas-product-analytics/
-├── data/                    # CSV data files (not committed)
-├── docs/                    # Documentation
-│   ├── business_questions.md
-│   ├── data_dictionary.md
-│   └── erd_diagram.png
-├── queries/                 # SQL queries by topic
-├── scripts/                 # Python data generation & analysis
-├── visualizations/          # Tableau dashboard
+├── data/
+│   └── saas_data_generation.py          # Python script to generate synthetic data
+├── schema/
+│   └── schema.sql                        # PostgreSQL database schema
+├── queries/
+│   ├── 01_engagement/                    # 5 engagement analysis queries
+│   │   ├── data_quality_checks.sql
+│   │   ├── dau_mau_stickiness.sql
+│   │   ├── feature_usage.sql
+│   │   ├── user_segmentation.sql
+│   │   └── engagement_trends.sql
+│   ├── 02_retention/                     # 5 retention & cohort queries
+│   │   ├── cohort_retention.sql
+│   │   ├── retention_by_channel.sql
+│   │   ├── trial_to_paid_conversion.sql
+│   │   ├── churn_prediction.sql
+│   │   └── time_to_value.sql
+│   └── 03_revenue/                       # Revenue analysis
+│       └── mrr_arr_trends.sql
+├── tableau/
+│   ├── data/                             # CSV exports for Tableau
+│   └── SaaS_Analytics_Dashboard.twbx
 ├── README.md
-└── schema.sql               # Database schema
+└── README_ANALYSIS_SUMMARY.md            # Detailed findings
 ```
 
 ---
 
-## Progress Tracker
+## 🔧 SQL Techniques Demonstrated
 
-- [x] Day 1: Problem framing + schema design
-- [x] Day 2: Data generation + export ✅ COMPLETE
-- [x] Day 3: Core SQL queries (engagement)
-- [ ] Day 4: Retention + cohort analysis
-- [ ] Day 5: Revenue metrics
-- [ ] Day 6: Tableau dashboard
-- [ ] Day 7: Documentation + LinkedIn post
+### Core Skills
+- **Window Functions:** RANK, LAG, ROW_NUMBER, PERCENTILE_CONT, moving averages
+- **Common Table Expressions (CTEs):** Multi-step query logic, recursive patterns
+- **Complex JOINs:** Self-joins, lateral joins, 4+ table joins
+- **Date/Time Manipulation:** DATE_TRUNC, EXTRACT, INTERVAL arithmetic, AGE()
+- **Aggregations:** COUNT FILTER, conditional aggregation, NULLIF for safe division
 
----
-
-## SQL Queries
-
-### Engagement Analysis (queries/01_engagement/)
-
-**Purpose:** Understand user engagement patterns, feature adoption, and activity segmentation to identify product health and churn drivers.
-
-**Queries (run in this order):**
-
-#### 1. data_quality_checks.sql
-**Purpose:** Validate data integrity before analysis
-
-**SQL Techniques:**
-- COUNT with FILTER clause for conditional aggregations
-- COALESCE for NULL handling
-- CASE statements for data standardization
-- ROW_NUMBER() OVER (PARTITION BY) for deduplication logic
-
-**Key Findings:**
-- ✅ Data is clean: 0 duplicates, 0 orphaned events, 0 invalid timestamps
-- ⚠️ 17 NULL countries (~2% of users) handled via COALESCE
-- ✅ 1,000 users, 170,218 events, 1,786 subscriptions, 19,332 payments validated
+### Advanced Patterns
+- **Cohort Analysis:** Retention curves, cohort-over-cohort comparisons
+- **Funnel Analysis:** Multi-stage conversion tracking
+- **Predictive Modeling:** Churn risk scoring with composite indicators
+- **Time-Series Analysis:** Trend detection, seasonality checks
+- **Data Quality:** Deduplication logic, NULL handling, constraint validation
 
 ---
 
-#### 2. dau_mau_stickiness.sql
-**Purpose:** Calculate core engagement metrics
+## 📊 Tableau Dashboards
 
-**SQL Techniques:**
-- CTEs (Common Table Expressions) for multi-step logic
-- Window functions: AVG() OVER for 7-day moving average
-- DATE functions: DATE(), DATE_TRUNC('month')
-- Filtering active events (login, feature_use) vs passive events
+### Dashboard 1: Product Health Overview
+**Visualizations:**
+- MAU trend line (growth → collapse pattern)
+- Stickiness % over time (crossed 20% threshold)
+- User segmentation pie chart (71% at-risk visualization)
+- KPI cards (Peak MAU: 796, Churn: 71%, Conversion: 69%, Activation: 49%)
 
-**Key Findings:**
-- **Growth Phase (2022):** MAU grew 50 → 796 (16x growth), stickiness improved 14% → 20%
-- **Crossed healthy threshold:** Stickiness reached 20.38% in Nov 2022 (industry benchmark: 20%+)
-- **Decline Phase (2023):** MAU collapsed 796 → 14 (98% decline), suggesting severe retention crisis
-- **Plateau timing:** Growth stalled Q4 2022, decline accelerated throughout 2023
-
-**Business Insight:** Product achieved product-market fit in 2022 but experienced catastrophic churn in 2023.
+**Key Insight:** Product achieved strong engagement metrics but suffered from retention crisis.
 
 ---
 
-#### 3. feature_usage.sql
-**Purpose:** Rank features by adoption and usage intensity
+### Dashboard 2: Cohort Retention Analysis
+**Visualizations:**
+- Cohort retention heatmap (10 cohorts × 6 time periods)
+- Retention curves by activation speed
+- Channel retention comparison (all ~98% at 90-day)
 
-**SQL Techniques:**
-- CROSS JOIN to attach total user count to all rows
-- RANK() OVER (ORDER BY) for feature ranking
-- Type casting (::NUMERIC) for decimal division
-- NULL filtering (WHERE feature_used IS NOT NULL)
-
-**Key Findings:**
-- **Balanced adoption:** All features at 74-76% adoption (no clear winner or loser)
-- **Top features:** integrations (4,223 uses), api_access (4,221), analytics (4,218)
-- **Usage intensity:** ~5.5 events per user across all features (broad exploration)
-- **Growth trend:** Feature usage increased Jan → Mar 2022, api_access spiked in March (101 uses)
-
-**Business Insight:** Well-designed product with balanced feature set; no underperforming features to deprecate.
+**Key Insight:** "Smile curve" pattern—strong M1-M9 retention (75-85%), then -15% drop at M12 renewal across ALL cohorts.
 
 ---
 
-#### 4. user_segmentation.sql
-**Purpose:** Segment users by activity level (Power/Casual/At-Risk/Dormant)
+### Dashboard 3: Revenue & Conversion Analysis
+**Visualizations:**
+- MRR growth area chart (28x growth trajectory)
+- Revenue mix stacked area (enterprise → professional shift)
+- Conversion funnel (1,000 → 487 → 691 → 280)
+- Plan distribution donut (starter 69%, pro 26%, enterprise 5%)
 
-**SQL Techniques:**
-- PERCENTILE_CONT for dynamic segmentation thresholds (80th/20th percentile)
-- Complex CASE logic with multiple conditions
-- CURRENT_DATE replaced with dataset max date for historical analysis
-- Recency calculation: days_since_last_event
-- Window functions for percentage calculations
-
-**Key Findings:**
-- **Power Users (2.4%):** Only 23 users highly engaged (179 avg events, active 142 days)
-- **Casual Users (6.4%):** 62 users with moderate engagement (vs. healthy benchmark: 50-60%)
-- **At-Risk (70.6%):** 686 users inactive 5+ months despite prior engagement (avg 85 events)
-- **Dormant (20.6%):** 200 users never activated (2.5 events, inactive 8 months)
-
-**Critical Finding:** **Retention crisis** — 71% of users are at-risk. Small power user base (2.4% vs. healthy 10-20%) and weak casual segment indicate severe churn problem, not acquisition problem.
-
-**Business Recommendations:**
-- Immediate: Win-back campaign for 686 at-risk users
-- Short-term: Interview 23 power users to identify retention drivers
-- Long-term: Improve activation (reduce 21% dormancy to <10%)
+**Key Insight:** Professional tier became revenue driver (45% of MRR), but retention failure capped long-term growth.
 
 ---
 
-#### 5. engagement_trends.sql
-**Purpose:** Analyze engagement patterns over time (weekly, daily, monthly, cohort)
+### Dashboard 4: Activation & Channel Performance
+**Visualizations:**
+- Activation speed distribution (36% never activate)
+- 6-event threshold bar chart (99% activation predictor)
+- Channel performance scorecard (affiliate dominates)
 
-**SQL Techniques:**
-- LAG() window function for week-over-week and month-over-month growth
-- NULLIF() to prevent division by zero errors
-- TO_CHAR() for day-of-week extraction
-- EXTRACT(DOW) for chronological day ordering
-- Moving averages: ROWS BETWEEN n PRECEDING AND CURRENT ROW
-- Cohort retention analysis with multi-table JOINs
-
-**Part 1: Weekly Engagement Trends**
-- **Growth Phase:** 12 WAU (Jan 2022) → 560 WAU (Oct 2022) = 47x growth
-- **Peak:** October 2022 at 560 weekly active users
-- **Decline:** 560 WAU → 12 WAU (98% decline over 12 months)
-- **WoW growth:** +100%+ early 2022, stabilized to 5-10%, turned negative Nov 2022
-
-**Part 2: Day-of-Week Patterns**
-- **NO weekday effect:** All days average 88-91 DAU (only 2.5% variance)
-- **Saturday highest:** 90.51 avg DAU (B2C product, not B2B)
-- **Implication:** Product is "always on" — no work hours pattern
-
-**Part 3: Month-over-Month Growth Analysis**
-- **Inflection point:** Nov 2022 first MoM decline (-1.4%)
-- **Acceleration:** Feb 2023 began double-digit declines (-11%)
-- **Death spiral:** Jun-Oct 2023 losing 20-87% monthly
-- **Final month:** Oct 2023 = -87% MoM (total collapse)
-
-**Part 4: Cohort Retention Trends**
-- **Excellent early retention:** Jan-Jul 2022 cohorts showed 75-85% retention after 12 months (world-class)
-- **Synchronized churn:** All cohorts churned at exactly the 12-month mark
-  - Jan 2022 cohort: Churned Jan 2023 (75% → 58%)
-  - Feb 2022 cohort: Churned Feb 2023 (84% → 64%)
-  - Pattern consistent across all cohorts
-
-**Critical Discovery:** Churn is NOT gradual decay — it's a **lifecycle event at 12 months**.
-
-**Root Cause Analysis:**
-- **Most likely:** Annual subscription renewals (users signed up, stayed 12 months, didn't renew)
-- **Supporting evidence:** Perfect 12-month offset, simultaneous churn across cohorts, 76% on paid plans
-- **Secondary factor:** Possible competitor launch Q4 2022 (timing aligns with plateau)
-
-**Business Insight:** Product had strong retention (75-85%) throughout the first year, then mass exodus at renewal. This suggests **pricing or competitive pressure at renewal**, not product quality issues during the user lifecycle.
+**Key Insight:** First week engagement is critical—6 events predicts 99% activation, but 36% never reach this threshold.
 
 ---
 
-## SQL Techniques Demonstrated
+## 🚀 How to Reproduce This Analysis
 
-- Complex JOINs (4+ table joins)
-- Common Table Expressions (CTEs)
-- Window functions (LAG, LEAD, ROW_NUMBER, RANK)
-- Cohort retention analysis
-- Date calculations and time-series aggregations
-- CTEs for readable multi-step queries
-- Window functions (RANK, LAG, ROW_NUMBER, moving averages)
-- Date manipulation (DATE_TRUNC, EXTRACT, date arithmetic)
-- Aggregations with conditional logic (COUNT FILTER, CASE statements)
-- JOINs across multiple tables (users, events, subscriptions)
-- Percentile functions (PERCENTILE_CONT)
-- Type casting and NULL handling (::NUMERIC, NULLIF, COALESCE)
-
----
-
-## Key Insights
-
-*(To be updated as analysis progresses)*
-### Summary: The Complete Story
-
-**2022 (Growth Year):**
-- ✅ Explosive growth: 50 → 796 MAU (16x)
-- ✅ Stickiness improved: 14% → 20% (crossed healthy threshold)
-- ✅ Strong cohort retention: 75-85% after 12 months
-- ✅ Balanced feature adoption: All features 74-76% usage
-
-**Q4 2022 (Warning Signs):**
-- ⚠️ First MoM decline: Nov 2022 (-1.4%)
-- ⚠️ Growth plateau: MAU flat at ~780-800
-- ⚠️ User segmentation worsening: Power users shrinking
-
-**2023 (Collapse Year):**
-- ❌ MAU declined 98% (796 → 14)
-- ❌ 71% of users at-risk (inactive 5+ months)
-- ❌ All cohorts churned at 12-month renewal
-- ❌ Death spiral: -87% MoM in final month
-
-**Key Takeaway:** Product achieved product-market fit in 2022 but failed at annual renewal in 2023, likely due to pricing issues or competitive pressure. The 23 remaining power users suggest a niche value proposition worth exploring for a focused pivot.
-
----
-
-## How to Use This Repository
-
-1. **Clone the repo:**
+### 1. Clone Repository
 ```bash
-   git clone https://github.com/yourusername/saas-product-analytics.git
+git clone https://github.com/abeltrandlt/saas-product-analytics.git
+cd saas-product-analytics
 ```
 
-2. **Set up PostgreSQL database:**
+### 2. Set Up PostgreSQL Database
 ```bash
-   psql -U postgres -f schema.sql
+# Create database
+createdb saas_analytics
+
+# Load schema
+psql -d saas_analytics -f schema/schema.sql
 ```
 
-3. **Generate data:**
+### 3. Generate Synthetic Data
 ```bash
-   python scripts/generate_saas_data.py
+python data/saas_data_generation.py
 ```
 
-4. **Run queries:**
+### 4. Run SQL Queries
 ```bash
-   psql -U postgres -d saas_analytics -f queries/01_engagement/dau_mau.sql
+# Engagement analysis
+psql -d saas_analytics -f queries/01_engagement/dau_mau_stickiness.sql
+
+# Cohort retention
+psql -d saas_analytics -f queries/02_retention/cohort_retention.sql
+
+# Revenue metrics
+psql -d saas_analytics -f queries/03_revenue/mrr_arr_trends.sql
 ```
+
+### 5. Build Tableau Dashboard
+- Open `tableau/SaaS_Analytics_Dashboard.twbx` in Tableau Desktop/Public
+- Or view the published version: [Live Dashboard Link](https://public.tableau.com/app/profile/alberto.beltran.de.la.torre/viz/SaaSProductAnalyticsDashboard_17747287669060/SaaSProductAnalysis-FullStory)
 
 ---
 
-## Contact
+## 📚 Documentation
+
+- **[Detailed Analysis Summary](README_ANALYSIS_SUMMARY.md)** - Complete findings from Days 3-5
+- **[SQL Query Documentation](docs/business_questions.md)** - Each query includes business context and SQL techniques
+- **[Data Dictionary](docs/erd_diagram.png)** - Schema definitions and relationships
+
+---
+
+## 🎓 What This Project Demonstrates
+
+**Technical Skills:**
+- Advanced SQL (window functions, CTEs, cohort analysis)
+- Data modeling and schema design
+- Python for data generation
+- Tableau for interactive dashboards
+- Git version control
+
+**Business Acumen:**
+- Product analytics (activation, engagement, retention)
+- Revenue metrics (MRR, ARR, ARPU, NRR concepts)
+- Cohort analysis and churn prediction
+- Channel performance optimization
+- Data-driven recommendations
+
+**Communication:**
+- Clear documentation
+- Business storytelling with data
+- Visual design (Tableau dashboards)
+- Actionable insights for stakeholders
+
+---
+
+## 📬 Contact
 
 **Alberto Beltran**  
-[LinkedIn](https://www.linkedin.com/in/alberto-beltran-analyst) | [GitHub](https://github.com/abeltrandlt)
+📧 Email: abeltrandlt@gmail.com  
+💼 [LinkedIn](https://www.linkedin.com/in/alberto-beltran-analyst)  
+💻 [GitHub](https://github.com/abeltrandlt)  
+📊 [Tableau Public](https://public.tableau.com/app/profile/alberto.beltran.de.la.torre/vizzes)
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+## 🙏 Acknowledgments
+
+Dataset generated using Python with realistic SaaS behavioral patterns. Schema design inspired by industry-standard SaaS analytics frameworks. SQL techniques learned through practical application and iteration.
+
+---
+
+*Last Updated: March 2026*
