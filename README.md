@@ -133,8 +133,7 @@ This project analyzes the complete lifecycle of a SaaS product—from explosive 
 saas-product-analytics/
 ├── data/
 │   └── saas_data_generation.py          # Python script to generate synthetic data
-├── schema/
-│   └── schema.sql                        # PostgreSQL database schema
+├── schema.sql                           # PostgreSQL database schema
 ├── queries/
 │   ├── 01_engagement/                    # 5 engagement analysis queries
 │   │   ├── data_quality_checks.sql
@@ -151,7 +150,7 @@ saas-product-analytics/
 │   └── 03_revenue/                       # Revenue analysis
 │       └── mrr_arr_trends.sql
 ├── tableau/
-│   ├── data/                             # CSV exports for Tableau
+│   ├── dashboard-preview.png                         
 │   └── SaaS_Analytics_Dashboard.twbx
 └── README.md
 ```
