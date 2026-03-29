@@ -20,7 +20,7 @@ Explore 4 interactive dashboards covering:
 - Revenue growth analysis (28x MRR growth)
 - Activation funnels and channel performance
 
-![Dashboard Preview](path/to/dashboard-screenshot.png)
+![Dashboard Preview](Tableau/dashboard-preview.png)
 
 ---
 
@@ -152,7 +152,7 @@ saas-product-analytics/
 │       └── mrr_arr_trends.sql
 ├── tableau/
 │   ├── data/                             # CSV exports for Tableau
-│   └── SaaS_Analytics_Dashboard_FINAL.twbx
+│   └── SaaS_Analytics_Dashboard.twbx
 ├── README.md
 └── README_ANALYSIS_SUMMARY.md            # Detailed findings
 ```
@@ -256,16 +256,16 @@ psql -d saas_analytics -f queries/03_revenue/mrr_arr_trends.sql
 ```
 
 ### 5. Build Tableau Dashboard
-- Open `tableau/SaaS_Analytics_Dashboard_FINAL.twbx` in Tableau Desktop/Public
-- Or view the published version: [Live Dashboard Link](YOUR-LINK)
+- Open `tableau/SaaS_Analytics_Dashboard.twbx` in Tableau Desktop/Public
+- Or view the published version: [Live Dashboard Link](https://public.tableau.com/app/profile/alberto.beltran.de.la.torre/viz/SaaSProductAnalyticsDashboard_17747287669060/SaaSProductAnalysis-FullStory)
 
 ---
 
 ## 📚 Documentation
 
 - **[Detailed Analysis Summary](README_ANALYSIS_SUMMARY.md)** - Complete findings from Days 3-5
-- **[SQL Query Documentation](queries/)** - Each query includes business context and SQL techniques
-- **[Data Dictionary](schema/schema.sql)** - Schema definitions and relationships
+- **[SQL Query Documentation](docs/business_questions.md)** - Each query includes business context and SQL techniques
+- **[Data Dictionary](docs/erd_diagram.png)** - Schema definitions and relationships
 
 ---
 
@@ -296,7 +296,7 @@ psql -d saas_analytics -f queries/03_revenue/mrr_arr_trends.sql
 ## 📬 Contact
 
 **Alberto Beltran**  
-📧 Email: your.email@example.com  
+📧 Email: abeltrandlt@gmail.com  
 💼 [LinkedIn](https://www.linkedin.com/in/alberto-beltran-analyst)  
 💻 [GitHub](https://github.com/abeltrandlt)  
 📊 [Tableau Public](https://public.tableau.com/app/profile/alberto.beltran.de.la.torre/vizzes)
