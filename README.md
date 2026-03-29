@@ -153,8 +153,7 @@ saas-product-analytics/
 ├── tableau/
 │   ├── data/                             # CSV exports for Tableau
 │   └── SaaS_Analytics_Dashboard.twbx
-├── README.md
-└── README_ANALYSIS_SUMMARY.md            # Detailed findings
+└── README.md
 ```
 
 ---
@@ -263,7 +262,6 @@ psql -d saas_analytics -f queries/03_revenue/mrr_arr_trends.sql
 
 ## 📚 Documentation
 
-- **[Detailed Analysis Summary](README_ANALYSIS_SUMMARY.md)** - Complete findings from Days 3-5
 - **[SQL Query Documentation](docs/business_questions.md)** - Each query includes business context and SQL techniques
 - **[Data Dictionary](docs/erd_diagram.png)** - Schema definitions and relationships
 
