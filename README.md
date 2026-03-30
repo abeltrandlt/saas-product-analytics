@@ -1,4 +1,4 @@
-# SaaS Product Analytics: Growth to Decline Case Study
+# SaaS Product Analytics: Growth, Retention, & Churn Analysis
 
 **Author:** Alberto Beltran  
 **Tools:** Python, PostgreSQL, SQL, Tableau  
